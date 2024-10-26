@@ -1,0 +1,35 @@
+1) LIBROS PRESTADOS
+
+SELECT 
+    libro.titulo, 
+    libro.autor, 
+    CONCAT(usuario.nombre, ' ', usuario.apellido) AS usuario, 
+    prestamo.fecha_prestamo, 
+    prestamo.fecha_devolucion
+FROM 
+    prestamo
+JOIN 
+    libro ON prestamo.libro_id = libro.id
+JOIN 
+    usuario ON prestamo.usuario_id = usuario.id
+WHERE 
+    prestamo.fecha_devolucion IS NULL;
+
+
+2) LIBROS NO DEVUELTOS EN 7 DIAS
+
+SELECT 
+    libro.titulo, 
+    libro.autor, 
+    CONCAT(usuario.nombre, ' ', usuario.apellido) AS usuario, 
+    prestamo.fecha_prestamo
+FROM 
+    prestamo
+JOIN 
+    libro ON prestamo.libro_id = libro.id
+JOIN 
+    usuario ON prestamo.usuario_id = usuario.id
+WHERE 
+    prestamo.fecha_devolucion IS NULL
+    AND prestamo.fecha_prestamo< CURDATE() - INTERVAL 7 DAY;
+
